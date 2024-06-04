@@ -20,7 +20,7 @@
 
 ## Representation 
 
-Uses the implementation of 
+Uses the implementation of:
 
 Sageev Oore, Ian Simon, Sander Dieleman, Douglas Eck, and Karen Simonyan. "This time with feeling: Learning expressive musical performance" arXiv:1808.03715, 2018.
 
@@ -47,6 +47,8 @@ $ git clone https://github.com/jason9693/midi-neural-processor.git midi_processo
 $ sh dataset/script/{ecomp_piano_downloader, midi_world_downloader, ...}.sh
 ```
 
+Note: Ecomp piano downloader does not work anymore at the moment!
+
 * These shell files are from [performaceRNN re-built repository](https://github.com/djosix/Performance-RNN-PyTorch) implemented by [djosix](https://github.com/djosix)
 
 
@@ -55,7 +57,7 @@ $ sh dataset/script/{ecomp_piano_downloader, midi_world_downloader, ...}.sh
 To turn a directory of MIDI files into a representation that can be read by the model, use:
 
 ```bash
-$ python preprocess.py {midi_load_dir} {dataset_save_dir}
+$ python preprocess.py datasets/midi/epiano/ datasets/preprocesses/epiano/
 ```
 
 where midi_load_dir is something like datasets/midi/epiano/, and dataset_save_dir datasets/preprocesses/epiano/
@@ -63,8 +65,10 @@ where midi_load_dir is something like datasets/midi/epiano/, and dataset_save_di
 
 ## Trainig
 
+Example:
+
 ```bash
-$ python train.py -c {config yml file 1} {config yml file 2} ... -m {model_dir}
+$ python3 train.py -c config/base.yml config/train.yml -m trained_models/
 ```
 
 
@@ -96,11 +100,8 @@ $ python train.py -c {config yml file 1} {config yml file 2} ... -m {model_dir}
 ## Generate Music
 
 ```bash
-$ python generate.py -c {config yml file 1} {config yml file 2} -m {model_dir}
+python3 generate.py -c config/base.yml config/generate.yml -m trained_models/
 ```
-
-
-
 
 ## Generated Samples ( Youtube Link )
 

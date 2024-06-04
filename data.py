@@ -81,13 +81,11 @@ class Data:
             data = pickle.load(f)
         if max_length is not None:
             if max_length <= len(data):
-                start = random.randrange(0,len(data) - max_length)
+                start = random.randrange(0, len(data) - max_length)
                 data = data[start:start + max_length]
             else:
-                raise IndexError
-                # data = np.append(data, config.token_eos)
-                # while len(data) < max_length:
-                #     data = np.append(data, config.pad_token)
+                print(f"Error: max_length ({max_length}) is greater than data length ({len(data)}) in file {fname}")
+                raise IndexError(f"Requested max_length {max_length} exceeds data length {len(data)} in file {fname}")
         return data
 
 

@@ -35,12 +35,12 @@ mt = MusicTransformer(
     max_seq=config.max_seq,
     dropout=0,
     debug=False)
-mt.load_state_dict(torch.load(args.model_dir+'/final.pth'))
+
+mt.load_state_dict(torch.load(config.model_path))
 mt.test()
 
-print(config.condition_file)
 if config.condition_file is not None:
-    inputs = np.array([encode_midi('dataset/midi/BENABD10.mid')[:500]])
+    inputs = np.array([encode_midi(config.condition_file)[:500]])
 else:
     inputs = np.array([[24, 28, 31]])
 inputs = torch.from_numpy(inputs)

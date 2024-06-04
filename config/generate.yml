@@ -1,4 +1,5 @@
-save_path: 'bin/generated.mid'
+model_path: 'trained_models/train-28.pth'
+save_path: 'generated_midi_files/generated.mid'
 condition_file:
 length: 4000
 threshold_len: 500
