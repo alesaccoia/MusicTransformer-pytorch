@@ -4,6 +4,7 @@ from custom.metrics import *
 from custom.criterion import SmoothCrossEntropyLoss, CustomSchedule
 from custom.config import config
 from data import Data
+import os
 
 import utils
 import datetime
@@ -114,6 +115,12 @@ for e in range(config.epochs):
 
             eval_metrics = metric_set(eval_preiction, eval_y)
             torch.save(single_mt.state_dict(), args.model_dir+'/train-{:06d}.pth'.format(e))
+            model_files = [f for f in os.listdir(args.model_dir) if f.startswith('train-')]
+            model_files.sort()
+            if len(model_files) > 100:
+                for f in model_files[:-100]:
+                    os.remove(os.path.join(args.model_dir, f))
+                    
             if b == 0:
                 train_summary_writer.add_histogram("target_analysis", batch_y, global_step=e)
                 train_summary_writer.add_histogram("source_analysis", batch_x, global_step=e)
