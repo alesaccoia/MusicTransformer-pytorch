@@ -14,11 +14,16 @@ import torch
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 
-
 # set config
 parser = custom.get_argument_parser()
 args = parser.parse_args()
 config.load(args.model_dir, args.configs, initialize=True)
+
+
+PRIMING_SEQUENCE = torch.from_numpy(np.array([[24, 28, 31]]))
+MIDI_DIR_NAME = args.model_dir + '/midi/'
+
+os.makedirs(MIDI_DIR_NAME, exist_ok=True)
 
 # check cuda
 if torch.cuda.is_available():
@@ -120,6 +125,13 @@ for e in range(config.epochs):
             if len(model_files) > 100:
                 for f in model_files[:-100]:
                     os.remove(os.path.join(args.model_dir, f))
+
+            # begin create MIDI file
+            # siamo già in evaluation mode, quindi non serve impostarlo. usa i parametri di default:
+            # lunghezza 2048 e nessun output su tensorboard
+            result = single_mt(PRIMING_SEQUENCE)
+            decode_midi(result, file_path=MIDI_DIR_NAME + 'train-{:06d}.mid'.format(e))
+            ## end create MIDI file
                     
             if b == 0:
                 train_summary_writer.add_histogram("target_analysis", batch_y, global_step=e)
